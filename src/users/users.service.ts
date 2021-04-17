@@ -27,10 +27,10 @@ export class UsersService {
     async deleteUser(id) {
         return (await User.findOne({ where: { id: id } })).destroy()
     }
-    async getFriends(id) {
-        return (await User.findOne({ where: { id: id } })).friends
+    async getFriends(id):Promise<User>  {
+        return (await User.findOne({ where: { id: id } }))
     }
-    async createFriends(friendDto: AddFriendDto, id) {
+    async createFriends(friendDto: AddFriendDto, id):Promise<User>  {
 
         this.logger.debug(this.getUsersInfo(friendDto))
         let result = await this.getUsersInfo(friendDto)
