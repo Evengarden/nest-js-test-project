@@ -1,25 +1,33 @@
-import { Column, Model, Table, BelongsToMany} from 'sequelize-typescript';
-import { JSON } from 'sequelize';
-import { UserGroups } from 'src/user-groups/user-groups.model';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, BaseEntity, JoinColumn } from "typeorm";
 import { Group } from '../../groups/models/groups.model';
-import { Serializer } from 'node:v8';
+@Entity()
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-@Table
-export class User extends Model {
-  @Column({allowNull: false})
+  @Column()
   surname: string;
 
-  @Column({allowNull: false})
+  @Column()
   name: string;
 
-  @Column({allowNull: true})
+  @Column({ nullable: true })
   patronymic: string;
 
-  
+  @ManyToMany(type => User, users => users.friends)
+  @JoinTable({
+    name: "users_friends",
+  })
+  @JoinColumn([
+    {
+      name: "user_id", referencedColumnName: "user.id"
+    },
+    {
+      name: "friend_id", referencedColumnName: "user.id"
+    }
+  ])
+  friends: User[]
 
-  @Column({type:JSON,allowNull: true})
-  friends;
-
-  @BelongsToMany(() => Group,()=>UserGroups)
+  @ManyToMany(type => Group, group => group.users)
   groups: Group[]
 }

@@ -30,11 +30,11 @@ export class UsersController {
         return this.usersService.deleteUser(id);
     }
     @Get('friends/:id')
-    getFriends(@Param('id') id: number): Promise<User> {
+    getFriends(@Param('id') id: number): Promise<User[]> {
         return this.usersService.getFriends(id);
     }
-    @Put('friends/:id')
-    AddFriends(@Body() friendDto: AddFriendDto, @Param('id') id: number): Promise<User> {
+    @Post('friends/:id')
+    AddFriends(@Body() friendDto: AddFriendDto, @Param('id') id: number): Promise<User[]> {
         return this.usersService.createFriends(friendDto, id);
     }
 }

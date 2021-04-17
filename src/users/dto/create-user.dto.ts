@@ -1,7 +1,6 @@
-export class CreateUserDto{
-    surname:string;
-    name:string;
-    patronymic:string;
-    friends:number[];
-    
+export class CreateUserDto {
+    surname: string;
+    name: string;
+    patronymic: string;
+
 }

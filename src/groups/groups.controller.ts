@@ -1,35 +1,39 @@
-import { Controller, Get, Post, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { AddUserInGroupDto } from './dto/add-user-in-group.dto';
+import { User } from 'src/users/models/users.model';
+import { CreateGroupDto } from './dto/create-group.dto';
+import { UpdateGroupDto } from './dto/update-group.dto';
 import { GroupsService } from './groups.service';
+import { Group } from './models/groups.model';
 
 @Controller('groups')
 export class GroupsController {
-    constructor(private readonly groupsService:GroupsService){
-
-    }
+    constructor(private readonly groupsService: GroupsService) { }
 
     @Get()
-    index() {
-        this.groupsService.getAllGroups()
+    index(): Promise<Group[]> {
+        return this.groupsService.getAllGroups()
     }
     @Get(':id')
-    getUsers() {
-        this.groupsService.getGroupUsers()
+    getUsers(@Param('id') id: number): Promise<User[]> {
+        return this.groupsService.getGroupUsers(id)
     }
     @Post()
-    create() {
-        this.groupsService.createGroup()
+    create(@Body() createGroupDto: CreateGroupDto): Promise<Group> {
+        return this.groupsService.createGroup(createGroupDto)
     }
     @Put(':id')
-    update() {
-        this.groupsService.updateGroup()
+    update(@Param('id') id: number, @Body() updateGroupDto: CreateGroupDto): Promise<Group> {
+
+        return this.groupsService.updateGroup(id, updateGroupDto)
     }
     @Delete(':id')
-    delete() {
-        this.groupsService.deleteGroup()
+    delete(@Param('id') id: number) {
+        return this.groupsService.deleteGroup(id)
     }
-    @Post()
-    addUserInGroup(){
-        this.groupsService.addUserInGroup()
+    @Post(':id')
+    addUserInGroup(@Param('id') id: number, @Body() addUserInGroup: AddUserInGroupDto): Promise<User[]> {
+        return this.groupsService.addUserInGroup(id, addUserInGroup)
     }
 
 }

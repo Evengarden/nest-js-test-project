@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { async } from 'rxjs';
-import { where } from 'sequelize';
-import { Sequelize } from 'sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Group } from 'src/groups/models/groups.model';
+import { UserFriends } from 'src/user-friends/user-friends.model';
 import { AddFriendDto } from './dto/add-friend.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,46 +10,35 @@ import { User } from './models/users.model';
 
 @Injectable()
 export class UsersService {
-    private readonly logger = new Logger(UsersService.name)
+    constructor(@InjectRepository(User)
+    private usersRepository: Repository<User>) {
+
+    }
     async getAllUsers(): Promise<User[]> {
-        return User.findAll()
+        return await this.usersRepository.find()
     }
     async getUserGroups(id): Promise<Group[]> {
-        return (await User.findOne({ where: { id: id } })).groups
+        return ((await this.usersRepository.findOne(id, { relations: ["groups"] })).groups)
     }
     async createUser(userDto: CreateUserDto): Promise<User> {
-        const newUser = new User(userDto)
-        return newUser.save()
+        return await this.usersRepository.save(userDto)
     }
     async updateUser(updateDto: UpdateUserDto, id): Promise<User> {
-        return (await User.findOne({ where: { id: id } })).update(updateDto)
+        return await this.usersRepository.save({ ...updateDto, id: id })
     }
     async deleteUser(id) {
-        return (await User.findOne({ where: { id: id } })).destroy()
+        await this.usersRepository.findOneOrFail(id)
+        return this.usersRepository.delete(id)
     }
-    async getFriends(id):Promise<User>  {
-        return (await User.findOne({ where: { id: id } }))
+    async getFriends(id): Promise<User[]> {
+        return ((await this.usersRepository.findOne(id, { relations: ["friends"] })).friends)
     }
-    async createFriends(friendDto: AddFriendDto, id):Promise<User>  {
-
-        this.logger.debug(this.getUsersInfo(friendDto))
-        let result = await this.getUsersInfo(friendDto)
-        var addedFriends = {
-            friends:{
-
-            }
-        };
-        result.forEach(function(element,i) {
-            addedFriends.friends[i] = element
-        });
-        return (await User.findOne({ where: { id: id } })).update(addedFriends)
-    }
-
-    async getUsersInfo(friendDto) {
-        const promises = friendDto.friends.map(element => User.findOne({ where: { id: element } }).then((u)=>u.toJSON()))
-
-        let result = await Promise.all(promises)
-
-        return result
+    async createFriends(friendDto: AddFriendDto, id): Promise<User[]> {
+        let user = await this.usersRepository.findOne(id)
+        const promises = await friendDto.friends.map(element => this.usersRepository.findOne(element))
+        const results = await Promise.all(promises)
+        user.friends = results
+        this.usersRepository.save(user)
+        return (await this.usersRepository.findOne(id)).friends
     }
 }

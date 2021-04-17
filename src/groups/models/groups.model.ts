@@ -1,13 +1,29 @@
-import { Column, Model, Table,BelongsToMany } from 'sequelize-typescript';
-import { UserGroups } from 'src/user-groups/user-groups.model';
-import { User } from '../../users/models/users.model';
+import { User } from "src/users/models/users.model";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, JoinColumn } from "typeorm";
 
-@Table
-export class Group extends Model {
-  @Column
+@Entity()
+export class Group {
+  @PrimaryGeneratedColumn()
+  id: number
+
+  @Column()
   name: string;
 
-  @BelongsToMany(() => User,()=>UserGroups)
+
+  @ManyToMany(type => User, user => user.groups, {
+    cascade: true
+  })
+  @JoinTable({
+    name: "user_groups",
+  })
+  @JoinColumn([
+    {
+      name: "group_id", referencedColumnName: "id"
+    },
+    {
+      name: "user_id", referencedColumnName: "user.id"
+    }
+  ])
   users: User[]
 
 }

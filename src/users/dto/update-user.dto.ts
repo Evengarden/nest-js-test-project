@@ -1,7 +1,6 @@
-export class UpdateUserDto{
-    surname:string;
-    name:string;
-    patronymic:string;
-    friends:number[];
-    
+export class UpdateUserDto {
+    surname: string;
+    name: string;
+    patronymic: string;
+
 }
