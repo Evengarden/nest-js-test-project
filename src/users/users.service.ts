@@ -1,8 +1,7 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Group } from 'src/groups/models/groups.model';
-import { UserFriends } from 'src/user-friends/user-friends.model';
 import { AddFriendDto } from './dto/add-friend.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,9 +10,7 @@ import { User } from './models/users.model';
 @Injectable()
 export class UsersService {
     constructor(@InjectRepository(User)
-    private usersRepository: Repository<User>) {
-
-    }
+    private usersRepository: Repository<User>) { }
     async getAllUsers(): Promise<User[]> {
         return await this.usersRepository.find()
     }

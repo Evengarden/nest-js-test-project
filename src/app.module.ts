@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/models/users.model';
 import { Group } from './groups/models/groups.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: [User, Group],
       synchronize: true,
     }),
+    MongooseModule.forRoot(`mongodb+srv://nest:nest@cluster0.fjeuh.mongodb.net/nest-test?retryWrites=true&w=majority`),
     GroupsModule,
     UsersModule,
   ],
