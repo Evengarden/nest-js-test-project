@@ -2,9 +2,9 @@ import { Field, ID, ObjectType } from '@nestjs/graphql'
 import { GroupType } from 'src/groups/dto/group-graph.dto'
 
 @ObjectType()
-export class UserType{
+export class UserType {
     @Field(() => ID)
-    id:string
+    id: string
 
     @Field()
     surname: string
@@ -12,7 +12,7 @@ export class UserType{
     @Field()
     name: string
 
-    @Field({ nullable:true })
+    @Field({ nullable: true })
     patronymic: string
 
     @Field(type => [UserType])

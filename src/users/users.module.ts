@@ -10,7 +10,7 @@ import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), 
+  imports: [TypeOrmModule.forFeature([User]),
   MongooseModule.forFeature([{ name: UserMongo.name, schema: UserSchema }])],
   controllers: [UsersController, UsersMongoController],
   providers: [

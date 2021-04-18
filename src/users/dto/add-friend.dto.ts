@@ -1,3 +1,3 @@
-export class AddFriendDto{
+export class AddFriendDto {
     friends: number[]
 }
