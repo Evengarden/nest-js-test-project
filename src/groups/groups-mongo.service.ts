@@ -6,6 +6,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { AddUserInGroupMongoDto } from './dto/add-user-in-group-mongo.dto';
 import { User, UserDocument } from 'src/users/schemas/users.schema';
+import { GroupInput } from './dto/group-input.dto';
 
 
 @Injectable()
@@ -21,12 +22,12 @@ export class GroupMongoService {
         return (await this.groupModel.findById(id)).populate("users").execPopulate();
     }
 
-    async createGroup(groupDto: CreateGroupDto): Promise<Group> {
+    async createGroup(groupDto: GroupInput): Promise<Group> {
         const createdGroup = new this.groupModel(groupDto);
         return createdGroup.save();
     }
 
-    async updateGroup(id, updateDto: UpdateGroupDto): Promise<Group> {
+    async updateGroup(id, updateDto: GroupInput): Promise<Group> {
         return (await this.groupModel.findByIdAndUpdate(id, updateDto)).save()
     }
 

@@ -3,6 +3,7 @@ import { Group } from 'src/groups/models/groups.model';
 import { AddFriendDto } from './dto/add-friend.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserInput } from './dto/user-graph-input.dto';
 import { User } from './models/users.model';
 import { UsersService } from './users.service';
 
@@ -18,7 +19,7 @@ export class UsersController {
         return this.usersService.getUserGroups(id);
     }
     @Post()
-    create(@Body() userDto: CreateUserDto): Promise<User> {
+    create(@Body() userDto: UserInput): Promise<User> {
         return this.usersService.createUser(userDto);
     }
     @Put(':id')

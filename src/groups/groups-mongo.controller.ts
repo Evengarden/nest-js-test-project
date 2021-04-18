@@ -3,6 +3,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { Group } from './schemas/groups.schema';
 import { GroupMongoService } from './groups-mongo.service';
 import { AddUserInGroupMongoDto } from './dto/add-user-in-group-mongo.dto';
+import { GroupInput } from './dto/group-input.dto';
 
 @Controller('mongo/groups')
 export class GroupsMongoController {
@@ -17,11 +18,11 @@ export class GroupsMongoController {
         return this.groupsMongoService.getGroupUsers(id)
     }
     @Post()
-    create(@Body() createGroupDto: CreateGroupDto): Promise<Group> {
+    create(@Body() createGroupDto: GroupInput): Promise<Group> {
         return this.groupsMongoService.createGroup(createGroupDto)
     }
     @Put(':id')
-    update(@Param('id') id: string, @Body() updateGroupDto: CreateGroupDto): Promise<Group> {
+    update(@Param('id') id: string, @Body() updateGroupDto: GroupInput): Promise<Group> {
 
         return this.groupsMongoService.updateGroup(id, updateGroupDto)
     }

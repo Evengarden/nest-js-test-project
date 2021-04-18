@@ -6,14 +6,17 @@ import { User as UserMongo, UserSchema } from './schemas/users.schema';
 import { UsersMongoController } from './users-mongo.controller';
 import { UserMongoService } from './users-mongo.service';
 import { UsersController } from './users.controller';
+import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), MongooseModule.forFeature([{ name: UserMongo.name, schema: UserSchema }])],
+  imports: [TypeOrmModule.forFeature([User]), 
+  MongooseModule.forFeature([{ name: UserMongo.name, schema: UserSchema }])],
   controllers: [UsersController, UsersMongoController],
   providers: [
     UsersService,
-    UserMongoService
+    UserMongoService,
+    UsersResolver
   ]
 })
 export class UsersModule { }

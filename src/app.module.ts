@@ -7,6 +7,7 @@ import { User } from './users/models/users.model';
 import { Group } from './groups/models/groups.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
+import { GraphQLModule } from '@nestjs/graphql';
 
 
 @Module({
@@ -22,6 +23,9 @@ import { MongooseModule } from '@nestjs/mongoose';
       synchronize: true,
     }),
     MongooseModule.forRoot(`mongodb+srv://nest:nest@cluster0.fjeuh.mongodb.net/nest-test?retryWrites=true&w=majority`),
+    GraphQLModule.forRoot({
+      autoSchemaFile:'schema.gql'
+    }),
     GroupsModule,
     UsersModule,
   ],

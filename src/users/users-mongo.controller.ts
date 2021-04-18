@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common'
 import { AddFriendMongoDto } from './dto/add-friend-mongo.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserInput } from './dto/user-graph-input.dto';
 import { User } from './schemas/users.schema';
 import { UserMongoService } from './users-mongo.service';
 
@@ -17,7 +18,7 @@ export class UsersMongoController {
         return this.usersMongoService.getUserGroups(id);
     }
     @Post()
-    create(@Body() userDto: CreateUserDto): Promise<User> {
+    create(@Body() userDto: UserInput): Promise<User> {
         return this.usersMongoService.createUser(userDto);
     }
     @Put(':id')

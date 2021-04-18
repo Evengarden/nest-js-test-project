@@ -10,6 +10,8 @@ import { GroupsService } from './groups.service';
 import { Group } from './models/groups.model';
 import { Group as GroupMongo, GroupSchema } from './schemas/groups.schema';
 
+import { GroupsResolver } from './groups.resolver';
+
 @Module({
   imports: [TypeOrmModule.forFeature([Group]), TypeOrmModule.forFeature([User]),
   MongooseModule.forFeature([{ name: GroupMongo.name, schema: GroupSchema }]),
@@ -17,7 +19,8 @@ import { Group as GroupMongo, GroupSchema } from './schemas/groups.schema';
   controllers: [GroupsController, GroupsMongoController],
   providers: [
     GroupsService,
-    GroupMongoService
+    GroupMongoService,
+    GroupsResolver
   ],
 })
 export class GroupsModule {

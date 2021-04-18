@@ -1,3 +1,70 @@
+## Instruction
+API routing:
+
+```bash
+# PostgreSQL
+
+#User API
+Get all users - /users(@GET)
+Create user - /users(@POST, Body: {
+    "name":string,
+    "surname":string,
+    "patronymic":string
+}) 
+Get user groups - /users/:id(@GET)
+Update user - /users/:id(@PUT)
+Delete user - /users/:id(@DELETE)
+Add friends - /users/friends/:id(@POST, Body: {
+  "friends":[user id``s]
+})
+Get user friends - users/friends/:id(@GET)
+#Group API
+Get all groups - /groups(@GET)
+Create group - /groups(@POST, Body: {
+    "name":string
+}) 
+Get group users - /groups/:id(@GET)
+Update group - /groups/:id(@PUT)
+Delete group - /groups/:id(@DELETE)
+Add users into the group - /groups/:id(@POST, Body: {
+  "users":[user id``s]
+})
+# MongoDB
+Same as PostgreSQL, but with prefix '/mongo/...'
+
+# GraphQL
+
+#User API
+Get all users - users()
+Create user - createUser(input: {
+    "name":string,
+    "surname":string,
+    "patronymic":string
+}) 
+Get user groups - userGroups(id:string)
+Update user - updateUser(id:string,input{
+    "name":string,
+    "surname":string,
+    "patronymic":string
+}) 
+Delete user - deleteUser(id:string)
+Add friends - createFriends(id: string, input: {
+  "friends":["user id``s"]
+})
+Get user friends -userFriends(id:string))
+
+#Group API
+Get all groups - groups()
+Create group - createGroup(input: {
+    "name":string
+}) 
+Get group users - groupUsers(id:string)
+Update group - updateGroup(id:string)
+Delete group - deleteGroup(id:string)
+Add users into the group - addUserInGroup(id: string, input: {
+  "users":[user id``s]
+})
+```
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>

@@ -2,9 +2,9 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/users.schema';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AddFriendMongoDto } from './dto/add-friend-mongo.dto';
+import { UserInput } from './dto/user-graph-input.dto';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class UserMongoService {
         return (await this.userModel.findById(id)).populate("groups")
     }
 
-    async createUser(userDto: CreateUserDto): Promise<User> {
+    async createUser(userDto: UserInput): Promise<User> {
         const createdUser = new this.userModel(userDto);
         return createdUser.save();
     }

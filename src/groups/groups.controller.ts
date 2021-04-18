@@ -5,6 +5,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { GroupsService } from './groups.service';
 import { Group } from './models/groups.model';
+import { GroupInput } from './dto/group-input.dto';
 
 @Controller('groups')
 export class GroupsController {
@@ -19,11 +20,11 @@ export class GroupsController {
         return this.groupsService.getGroupUsers(id)
     }
     @Post()
-    create(@Body() createGroupDto: CreateGroupDto): Promise<Group> {
+    create(@Body() createGroupDto: GroupInput): Promise<Group> {
         return this.groupsService.createGroup(createGroupDto)
     }
     @Put(':id')
-    update(@Param('id') id: number, @Body() updateGroupDto: CreateGroupDto): Promise<Group> {
+    update(@Param('id') id: number, @Body() updateGroupDto: GroupInput): Promise<Group> {
 
         return this.groupsService.updateGroup(id, updateGroupDto)
     }

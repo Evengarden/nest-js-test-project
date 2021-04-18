@@ -1,3 +1,7 @@
+import { Field, InputType } from '@nestjs/graphql'
+
+@InputType()
 export class AddUserInGroupMongoDto {
-    users: string[]
+    @Field(type=> [String])
+    users:[string]
 }
